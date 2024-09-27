@@ -1,0 +1,8 @@
+// @ts-nocheck
+import type { PageServerLoad } from './$types';
+
+export const load = async ({ depends, locals: { supabase } }: Parameters<PageServerLoad>[0]) => {
+	depends('supabase:db:notes');
+	const { data: notes } = await supabase.from('notes').select('id,note').order('id');
+	return { notes: notes ?? [] };
+};
